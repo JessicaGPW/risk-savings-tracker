@@ -1,0 +1,66 @@
+rules_version = '2';
+// Security rules — Risk Savings Tracker
+// - Only verified e-mails from the company domain can access.
+// - Operator: reads and creates entries (author and timestamp enforced server-side).
+// - Admin (document at /admins/{email}, created manually in the console): edits and soft-deletes.
+// - Nobody hard-deletes documents: history is preserved for audit.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower().matches('.*@example[.]com$');
+    }
+    function email() { return request.auth.token.email; }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(email()));
+    }
+
+    function validEntry(d) {
+      return d.keys().hasOnly(['brand','reason','secondary','amount','currency','rate','eur','date','month',
+                               'source','deleted','createdBy','updatedBy','createdAt','updatedAt'])
+        && d.keys().hasAll(['brand','reason','amount','currency','rate','eur','date','month','deleted','createdBy','updatedBy','createdAt','updatedAt'])
+        && d.brand in ['kestrel','lynx','orca','vega','nimbus','mosaic']
+        && d.reason in ['multi_acc','ip_share','bonus_abuser','fraud']
+        && (!('secondary' in d) || (d.secondary is list && d.secondary.size() <= 3
+              && d.secondary.hasOnly(['multi_acc','ip_share','bonus_abuser','fraud'])))
+        && d.amount is number && d.amount > 0 && d.amount < 100000000
+        && d.currency is string && d.currency.matches('^[A-Z]{3,5}$')
+        && d.rate is number && d.rate > 0
+        && d.eur is number && d.eur >= 0 && d.eur < 100000000
+        && d.date is string && d.date.matches('^20[0-9]{2}-[01][0-9]-[0-3][0-9]$')
+        && d.month == d.date[0:7]
+        && d.deleted is bool;
+    }
+
+    match /entries/{id} {
+      allow read: if signedIn();
+
+      allow create: if signedIn()
+        && validEntry(request.resource.data)
+        && request.resource.data.deleted == false
+        && request.resource.data.createdBy == email()
+        && request.resource.data.updatedBy == email()
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if isAdmin()
+        && validEntry(request.resource.data)
+        && request.resource.data.createdBy == resource.data.createdBy
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.updatedBy == email()
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if false;
+    }
+
+    // Admin list: each user can only read their own document (so the extension knows the role).
+    match /admins/{adminEmail} {
+      allow read: if signedIn() && adminEmail == email();
+      allow write: if false;
+    }
+
+    match /{document=**} { allow read, write: if false; }
+  }
+}

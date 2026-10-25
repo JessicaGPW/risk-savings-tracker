@@ -1,0 +1,9 @@
+node_modules/
+test-output/
+media/.raw/
+*.webm
+.DS_Store
+Thumbs.db
+# Real credentials must never be committed
+extension/src/config.local.js
+.env

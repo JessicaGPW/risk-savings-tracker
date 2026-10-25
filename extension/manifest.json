@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "Risk Savings Tracker (Demo)",
+  "short_name": "Risk Savings",
+  "version": "1.0.0",
+  "description": "Side panel to log and track money saved by closing fraudulent/abusive accounts across brands. Portfolio demo with fictional data.",
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "action": {
+    "default_title": "Risk Savings (Alt+R)",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "permissions": [
+    "storage",
+    "identity"
+  ],
+  "host_permissions": [
+    "https://firestore.googleapis.com/*",
+    "https://identitytoolkit.googleapis.com/*",
+    "https://securetoken.googleapis.com/*",
+    "https://api.frankfurter.dev/*",
+    "https://api.frankfurter.app/*",
+    "https://api.coingecko.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*.localhost/*"
+      ],
+      "js": [
+        "src/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "panel.html"
+      ],
+      "matches": [
+        "http://*.localhost/*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; connect-src 'self' https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://api.frankfurter.dev https://api.frankfurter.app https://api.coingecko.com; img-src 'self' data:"
+  }
+}

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Back Office (simulated)</title>
+  <style>
+    :root { --brand: #38BDF8; --brand-bg: #0B1622; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #F3F5F8; color: #1F2937; }
+    header { display: flex; align-items: center; gap: 12px; padding: 14px 24px; background: var(--brand-bg); color: #fff; }
+    header img { width: 34px; height: 34px; }
+    header strong { font-size: 16px; }
+    header small { opacity: .7; margin-left: 6px; }
+    header .sp { flex: 1; }
+    header .pill { font-size: 12px; padding: 4px 10px; border-radius: 99px; background: rgba(255,255,255,.12); }
+    .layout { display: grid; grid-template-columns: 210px 1fr; min-height: calc(100vh - 62px); }
+    nav { background: #fff; border-right: 1px solid #E5E7EB; padding: 16px 10px; }
+    nav a { display: block; padding: 9px 12px; border-radius: 8px; color: #374151; text-decoration: none; }
+    nav a.on { background: color-mix(in srgb, var(--brand) 16%, white); color: #111827; font-weight: 600; }
+    main { padding: 24px 28px; max-width: 1100px; }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    .muted { color: #6B7280; }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 18px 0; }
+    .kpi { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 14px 16px; }
+    .kpi b { display: block; font-size: 20px; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden; }
+    th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #F0F1F4; }
+    th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #6B7280; background: #FAFBFC; }
+    .st { font-size: 12px; padding: 3px 8px; border-radius: 99px; }
+    .st.ok { background: #DCFCE7; color: #166534; } .st.rev { background: #FEF3C7; color: #92400E; } .st.cl { background: #FEE2E2; color: #991B1B; }
+    .note { margin-top: 18px; padding: 12px 14px; border-radius: 10px; background: #fff; border: 1px dashed #CBD5E1; color: #475569; font-size: 13px; }
+    @media (max-width: 720px) { .layout { grid-template-columns: 1fr; } nav { display: none; } .kpis { grid-template-columns: 1fr 1fr; } main { padding: 16px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <img id="logo" alt="">
+    <div><strong id="bname">Brand</strong><small>Back Office · simulated</small></div>
+    <span class="sp"></span>
+    <span class="pill">risk.analyst@demo.example</span>
+  </header>
+  <div class="layout">
+    <nav>
+      <a href="#">Overview</a>
+      <a href="#" class="on">Players</a>
+      <a href="#">Withdrawals</a>
+      <a href="#">Bonuses</a>
+      <a href="#">Risk alerts</a>
+    </nav>
+    <main>
+      <h1>Players under review</h1>
+      <div class="muted">Fictional back office used to demo the Risk Savings Tracker extension.</div>
+      <div class="kpis">
+        <div class="kpi">Open alerts<b>27</b></div>
+        <div class="kpi">Pending withdrawals<b>14</b></div>
+        <div class="kpi">Reviewed today<b>9</b></div>
+        <div class="kpi">Closed this week<b>12</b></div>
+      </div>
+      <table>
+        <thead><tr><th>Player</th><th>Signal</th><th>Pending withdrawal</th><th>Status</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="note">Open the <b>€ SAVINGS</b> tab on the right (or press <b>Alt+R</b>) to log the amount saved by closing an account.
+        The extension never reads this page — it only draws its own isolated panel on top.</div>
+    </main>
+  </div>
+  <script src="site.js"></script>
+</body>
+</html>

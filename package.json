@@ -1,0 +1,16 @@
+{
+  "name": "risk-savings-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome extension (MV3) to log and report money saved by closing fraudulent accounts across brands. Portfolio demo with fictional data.",
+  "type": "module",
+  "scripts": {
+    "demo": "node tools/serve.mjs",
+    "test": "node tests/e2e.cjs extension test-output",
+    "record": "node tests/record-demo.cjs extension media"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Risk Savings Tracker</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <div id="app">
+    <header class="top">
+      <div class="title">
+        <span class="dot"></span>
+        <div><strong>Risk Savings</strong><small id="who">—</small></div>
+      </div>
+      <div class="actions">
+        <button id="btnSync" class="icon" title="Refresh data" aria-label="Refresh data">⟳</button>
+        <button id="btnLogout" class="icon" title="Sign out" aria-label="Sign out" hidden>⎋</button>
+        <button id="btnClose" class="icon" title="Close panel" aria-label="Close panel">✕</button>
+      </div>
+    </header>
+
+    <!-- Login -->
+    <section id="login" class="screen" hidden>
+      <div class="login-card">
+        <h2>Sign in</h2>
+        <p>Use your company Google account to view and log savings across brands.</p>
+        <button id="btnLogin" class="primary">Sign in with Google</button>
+        <p id="loginErr" class="err" role="alert"></p>
+      </div>
+    </section>
+
+    <!-- App -->
+    <section id="main" hidden>
+      <nav class="tabs" role="tablist">
+        <button role="tab" data-tab="dash" class="active">Dashboard</button>
+        <button role="tab" data-tab="add">Log</button>
+        <button role="tab" data-tab="hist">History</button>
+      </nav>
+
+      <div class="period">
+        <div class="seg" role="group" aria-label="Period">
+          <button data-kind="week">Week</button>
+          <button data-kind="month" class="active">Month</button>
+          <button data-kind="year">Year</button>
+        </div>
+        <div class="nav">
+          <button id="prev" class="icon" aria-label="Previous period">‹</button>
+          <label class="plabel"><span id="plabel">—</span><input id="pick" type="date" aria-label="Pick a date"></label>
+          <button id="next" class="icon" aria-label="Next period">›</button>
+        </div>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="tab-dash" class="tab">
+        <div class="total">
+          <span>Total saved</span>
+          <strong id="totalEUR">€0.00</strong>
+          <small id="totalCount">0 accounts closed</small>
+        </div>
+        <div id="brands" class="brands"></div>
+
+        <div class="card">
+          <div class="card-h">
+            <h3>Closure reasons</h3>
+            <div class="seg small" role="group" aria-label="Percentage basis">
+              <button data-basis="count" class="active">Accounts</button>
+              <button data-basis="eur">Value</button>
+            </div>
+          </div>
+          <ol id="reasons" class="reasons"></ol>
+        </div>
+
+        <button id="btnCSV" class="ghost wide">Download period report (CSV)</button>
+        <p class="meta" id="lastSync"></p>
+      </div>
+
+      <!-- Log -->
+      <div id="tab-add" class="tab" hidden>
+        <form id="form" class="card form" novalidate>
+          <label>Brand
+            <select id="fBrand" required></select>
+          </label>
+          <div class="row">
+            <label>Currency
+              <select id="fCur" required></select>
+            </label>
+            <label>Amount withheld
+              <input id="fAmount" type="text" inputmode="decimal" placeholder="0.00" required autocomplete="off">
+            </label>
+          </div>
+          <label>Main reason
+            <select id="fReason" required></select>
+          </label>
+          <fieldset>
+            <legend>Secondary reasons <small>(optional)</small></legend>
+            <div id="fSecondary" class="chips"></div>
+          </fieldset>
+          <label>Closure date
+            <input id="fDate" type="date" required>
+          </label>
+          <div id="preview" class="preview">—</div>
+          <button id="btnSave" class="primary wide" type="submit">Log savings</button>
+          <p id="formMsg" class="msg" role="status"></p>
+        </form>
+      </div>
+
+      <!-- History -->
+      <div id="tab-hist" class="tab" hidden>
+        <div class="row">
+          <select id="hBrand" aria-label="Filter by brand"></select>
+        </div>
+        <ul id="hist" class="hist"></ul>
+        <div id="adminTools" class="card" hidden>
+          <h3>Admin tools</h3>
+          <label class="ghost wide file">Import entries (.json)
+            <input id="fileImport" type="file" accept="application/json" hidden>
+          </label>
+          <p id="importMsg" class="msg"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script type="module" src="src/panel.js"></script>
+</body>
+</html>
