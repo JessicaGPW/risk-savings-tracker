@@ -32,7 +32,7 @@ A side drawer that appears on top of every brand's back office:
 
 ## Design decisions
 
-- **No integration with vendor back offices.** The extension never reads or changes the host page: it only injects an isolated iframe inside a closed Shadow DOM. Zero risk for third-party systems, even though the extension runs on their site.
+- **No integration with vendor back offices.** The extension never reads or changes the host page: it only injects an isolated iframe inside a closed Shadow DOM. Zero risk for third-party systems.
 - **Privacy by design.** No player data is stored — only brand, reasons, amount, currency, rate, EUR value, date and operator.
 - **Zero dependencies.** Plain JavaScript modules, Manifest V3, Firebase used over its **REST APIs** (no SDK, no bundler). The whole extension is ~70 KB, icons included.
 - **Security in the backend, not the client.** Firestore rules enforce: company-domain verified e-mails only, schema validation of every field, author and server timestamps that cannot be forged, and only the right team can edit records.
@@ -109,13 +109,9 @@ Versão de portfólio de uma ferramenta interna que desenvolvi para o time de ri
 
 ## Aviso de direitos autorais
 
-Copyright © 2026 Jessica Baptista.
+© 2026 Jessica Baptista. Todos os direitos reservados.
 
-Todos os direitos reservados.
-
-É proibida a cópia, reprodução, distribuição, modificação, publicação ou uso deste repositório sem autorização prévia e por escrito da titular dos direitos.
-
-Qualquer uso não autorizado será proibido e poderá ensejar medidas legais cabíveis.
+É proibida a cópia, reprodução, distribuição, modificação ou uso deste repositório sem autorização prévia por escrito da autora.
 
 ## License
 
