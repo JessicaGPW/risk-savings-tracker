@@ -12,5 +12,5 @@
   "devDependencies": {
     "playwright": "^1.47.0"
   },
-  "license": "MIT"
+  "license": "UNLICENSED"
 }

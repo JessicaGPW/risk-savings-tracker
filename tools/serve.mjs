@@ -20,7 +20,7 @@ createServer(async (req, res) => {
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('Not found');
   }
-}).listen(PORT, () => {
+}).listen(PORT, '127.0.0.1', () => { // só localhost: não expõe a pasta do projeto na rede
   console.log(`Demo running. Open one of the simulated back offices:`);
   for (const b of ['kestrel', 'lynx', 'orca', 'vega', 'nimbus']) console.log(`  http://${b}.localhost:${PORT}/demo-site/`);
 });
